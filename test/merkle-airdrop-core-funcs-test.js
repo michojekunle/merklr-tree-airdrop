@@ -4,12 +4,12 @@ const { MerkleTree } = require("merkletreejs");
 const keccak256 = require("keccak256");
 
 describe("MerkleAirdropHe", function () {
-  let MerkleAirdrop, merkleAirdrop, token, owner, addr1, addr2, addr3;
+  let merkleAirdrop, token, owner, addr1, addr2, addr3;
   let merkleRoot, merkleTree;
   let users = [];
 
   before(async function () {
-    [owner, addr1, addr2, addr3, addr4] = await ethers.getSigners();
+    [owner, addr1, addr2, addr3] = await ethers.getSigners();
 
     // Deploy a mock ERC20 token
     const erc20Token = await ethers.getContractFactory("Web3CXI");

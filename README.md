@@ -1,4 +1,4 @@
-# Merkle Airdrop Project
+# Merkle Airdrop
 
 This project consists of a Merkle-based token airdrop smart contract (`MerkleAirdrop`) and a JavaScript script (`merkle.js`) for generating the Merkle root and proofs from a list of eligible addresses. The following instructions will guide you through setting up the environment, deploying the contract, and generating proofs for claiming the airdrop.
 
