@@ -87,51 +87,50 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
    - Make sure to have the necessary dependencies installed
 
-   Note: This hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
-
-   ```
-   require("@nomicfoundation/hardhat-toolbox");
-   const dotenv = require("dotenv");
-   dotenv.config();
-   
-   /** @type import('hardhat/config').HardhatUserConfig */
-   module.exports = {
-     solidity: "0.8.24",
-     networks: {
-       // for testnet
-       "lisk-sepolia": {
-         url: "https://rpc.sepolia-api.lisk.com",
-         accounts: [process.env.WALLET_KEY],
-         gasPrice: 1000000000,
-       },
-     },
-     etherscan: {
-       // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
-       apiKey: {
-         "lisk-sepolia": "123",
-       },
-       customChains: [
-         {
-           network: "lisk-sepolia",
-           chainId: 4202,
-           urls: {
-             apiURL: "https://sepolia-blockscout.lisk.com/api",
-             browserURL: "https://sepolia-blockscout.lisk.com",
-           },
+     Note: This hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
+  
+     ```
+     require("@nomicfoundation/hardhat-toolbox");
+     const dotenv = require("dotenv");
+     dotenv.config();
+     
+     /** @type import('hardhat/config').HardhatUserConfig */
+     module.exports = {
+       solidity: "0.8.24",
+       networks: {
+         // for testnet
+         "lisk-sepolia": {
+           url: "https://rpc.sepolia-api.lisk.com",
+           accounts: [process.env.WALLET_KEY],
+           gasPrice: 1000000000,
          },
-       ],
-     },
-     sourcify: {
-       enabled: false,
-     },
-   };
-   ```
+       },
+       etherscan: {
+         // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
+         apiKey: {
+           "lisk-sepolia": "123",
+         },
+         customChains: [
+           {
+             network: "lisk-sepolia",
+             chainId: 4202,
+             urls: {
+               apiURL: "https://sepolia-blockscout.lisk.com/api",
+               browserURL: "https://sepolia-blockscout.lisk.com",
+             },
+           },
+         ],
+       },
+       sourcify: {
+         enabled: false,
+       },
+     };
+     ```
 
-  - set up your `.env`, in your `.env`
-
-   ```
-   WALLET_KEY=""
-   ```
+    - set up your `.env`, in your `.env`
+       ```
+       WALLET_KEY=""
+       ```
 2. **Update the Deployment module:**
 
    Update your ignition modules (e.g., `ignition/modules/MerkleAirdrop.js`) with the following parameters:
@@ -164,7 +163,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
 4. **Verify the Deployment:**
 
-   Once deployed, note the contract address. You can verify the contract on Etherscan or blockscout if deployed in lisk-sepolia using:
+   Once deployed, note the contract address. You can verify the contract on Etherscan or blockscout if deployed on lisk-sepolia using:
 
    ```
    npx hardhat verify --network lisk-sepolia <your-contract-address> <...args>
