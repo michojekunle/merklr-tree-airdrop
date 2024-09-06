@@ -1,12 +1,12 @@
-# Merkle Airdrop
+# Merkle Tree Airdrop
 
 This project consists of a Merkle-based token airdrop smart contract (`MerkleAirdrop`) and a JavaScript script (`merkle.js`) for generating the Merkle root and proofs from a list of eligible addresses. The following instructions will guide you through setting up the environment, deploying the contract, and generating proofs for claiming the airdrop.
 
 ## Table of Contents
 
-1. [Setup and Running the ](#setup-and-running-the-merklejs-script)`merkle.js` Script
-2. Testing
-3. [Deploying the ](#deploying-the-merkleairdrop-contract)`MerkleAirdrop` Contract
+1. [Setup and Running the `merkle.js` Script](#setup-and-running-the-merklejs-script)
+2. [Testing](#testing)
+3. [Deploying the `MerkleAirdrop`Contract](#deploying-the-merkleairdrop-contract)
 4. [Generating Proofs for Claiming the Airdrop](#generating-proofs-for-claiming-the-airdrop)
 5. [Assumptions and Limitations](#assumptions-and-limitations)
 
@@ -31,7 +31,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/your-repo/merkle-airdrop.git cd merkle-airdrop
+   git clone https://github.com/michojekunle/merklr-tree-airdrop.git cd merkl-tree-airdrop
    ```
 
 2. **Install dependencies:**
@@ -85,9 +85,9 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
 1. **Set up your hardhat config and .env:** 
 
-   Make sure to have the necessary dependencies installed
+   - Make sure to have the necessary dependencies installed
 
-   Note:  this hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
+   Note: This hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
 
    ```
    require("@nomicfoundation/hardhat-toolbox");
@@ -127,7 +127,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
    };
    ```
 
-   set up your `.env`, in your `.env`
+  - set up your `.env`, in your `.env`
 
    ```
    WALLET_KEY=""
@@ -159,10 +159,9 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
    Deploy the contract using Hardhat:
 
    ```
-   npx hardhat ignition deploy ignition/modules/MerkleAirdrop.js --network yourNetwork
+   npx hardhat ignition deploy ignition/modules/MerkleAirdrop.js --network lisk-sepolia
    ```
 
-   Replace `yourNetwork` with the appropriate network (e.g., `lisk-sepolia`, `sepolia`).
 4. **Verify the Deployment:**
 
    Once deployed, note the contract address. You can verify the contract on Etherscan or blockscout if deployed in lisk-sepolia using:
@@ -203,8 +202,8 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
    Call the `claimReward` function on the `MerkleAirdrop` contract with the following parameters:
 
-   - `_amount`: The amount of tokens to claim (from `proofs.json`).
-   - `_merkleProof`: The proof array (from `proofs.json`).
+   - `_amount`: The amount of tokens to claim for the specific address (from `proofs.json`).
+   - `_merkleProof`: The proof array for the specific address (from `proofs.json`).
 
    Example in JavaScript:
 
