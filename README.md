@@ -236,3 +236,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 5. **Security Considerations:**
 
    - Ensure that the Merkle tree is generated securely and that the proofs are distributed to eligible users without leaks.
+
+```
+Thank you for reading through I really hope this helps, Happy Hacking! 🤗
+```
