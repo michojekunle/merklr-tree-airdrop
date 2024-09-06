@@ -23,7 +23,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
   ```
   address,amount 
   0xAbC123...,1000
-  0xDef456...,2000`
+  0xDef456...,2000
   ```
 
 ### Setup
