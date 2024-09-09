@@ -1,12 +1,12 @@
-# Merkle Airdrop
+# Merkle Tree Airdrop
 
 This project consists of a Merkle-based token airdrop smart contract (`MerkleAirdrop`) and a JavaScript script (`merkle.js`) for generating the Merkle root and proofs from a list of eligible addresses. The following instructions will guide you through setting up the environment, deploying the contract, and generating proofs for claiming the airdrop.
 
 ## Table of Contents
 
-1. [Setup and Running the ](#setup-and-running-the-merklejs-script)`merkle.js` Script
-2. Testing
-3. [Deploying the ](#deploying-the-merkleairdrop-contract)`MerkleAirdrop` Contract
+1. [Setup and Running the `merkle.js` Script](#setup-and-running-the-merklejs-script)
+2. [Testing](#testing)
+3. [Deploying the `MerkleAirdrop`Contract](#deploying-the-merkleairdrop-contract)
 4. [Generating Proofs for Claiming the Airdrop](#generating-proofs-for-claiming-the-airdrop)
 5. [Assumptions and Limitations](#assumptions-and-limitations)
 
@@ -23,7 +23,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
   ```
   address,amount 
   0xAbC123...,1000
-  0xDef456...,2000`
+  0xDef456...,2000
   ```
 
 ### Setup
@@ -31,7 +31,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/your-repo/merkle-airdrop.git cd merkle-airdrop
+   git clone https://github.com/michojekunle/merklr-tree-airdrop.git cd merkl-tree-airdrop
    ```
 
 2. **Install dependencies:**
@@ -85,53 +85,52 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
 1. **Set up your hardhat config and .env:** 
 
-   Make sure to have the necessary dependencies installed
+   - Make sure to have the necessary dependencies installed
 
-   Note:  this hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
-
-   ```
-   require("@nomicfoundation/hardhat-toolbox");
-   const dotenv = require("dotenv");
-   dotenv.config();
-   
-   /** @type import('hardhat/config').HardhatUserConfig */
-   module.exports = {
-     solidity: "0.8.24",
-     networks: {
-       // for testnet
-       "lisk-sepolia": {
-         url: "https://rpc.sepolia-api.lisk.com",
-         accounts: [process.env.WALLET_KEY],
-         gasPrice: 1000000000,
-       },
-     },
-     etherscan: {
-       // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
-       apiKey: {
-         "lisk-sepolia": "123",
-       },
-       customChains: [
-         {
-           network: "lisk-sepolia",
-           chainId: 4202,
-           urls: {
-             apiURL: "https://sepolia-blockscout.lisk.com/api",
-             browserURL: "https://sepolia-blockscout.lisk.com",
-           },
+     Note: This hardhat config has setup lisk-sepolia network only, you can add other networks if you want to deploy on them
+  
+     ```
+     require("@nomicfoundation/hardhat-toolbox");
+     const dotenv = require("dotenv");
+     dotenv.config();
+     
+     /** @type import('hardhat/config').HardhatUserConfig */
+     module.exports = {
+       solidity: "0.8.24",
+       networks: {
+         // for testnet
+         "lisk-sepolia": {
+           url: "https://rpc.sepolia-api.lisk.com",
+           accounts: [process.env.WALLET_KEY],
+           gasPrice: 1000000000,
          },
-       ],
-     },
-     sourcify: {
-       enabled: false,
-     },
-   };
-   ```
+       },
+       etherscan: {
+         // Use "123" as a placeholder, because Blockscout doesn't need a real API key, and Hardhat will complain if this property isn't set.
+         apiKey: {
+           "lisk-sepolia": "123",
+         },
+         customChains: [
+           {
+             network: "lisk-sepolia",
+             chainId: 4202,
+             urls: {
+               apiURL: "https://sepolia-blockscout.lisk.com/api",
+               browserURL: "https://sepolia-blockscout.lisk.com",
+             },
+           },
+         ],
+       },
+       sourcify: {
+         enabled: false,
+       },
+     };
+     ```
 
-   set up your `.env`, in your `.env`
-
-   ```
-   WALLET_KEY=""
-   ```
+    - set up your `.env`, in your `.env`
+       ```
+       WALLET_KEY=""
+       ```
 2. **Update the Deployment module:**
 
    Update your ignition modules (e.g., `ignition/modules/MerkleAirdrop.js`) with the following parameters:
@@ -159,13 +158,12 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
    Deploy the contract using Hardhat:
 
    ```
-   npx hardhat ignition deploy ignition/modules/MerkleAirdrop.js --network yourNetwork
+   npx hardhat ignition deploy ignition/modules/MerkleAirdrop.js --network lisk-sepolia
    ```
 
-   Replace `yourNetwork` with the appropriate network (e.g., `lisk-sepolia`, `sepolia`).
 4. **Verify the Deployment:**
 
-   Once deployed, note the contract address. You can verify the contract on Etherscan or blockscout if deployed in lisk-sepolia using:
+   Once deployed, note the contract address. You can verify the contract on Etherscan or blockscout if deployed on lisk-sepolia using:
 
    ```
    npx hardhat verify --network lisk-sepolia <your-contract-address> <...args>
@@ -203,8 +201,8 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 
    Call the `claimReward` function on the `MerkleAirdrop` contract with the following parameters:
 
-   - `_amount`: The amount of tokens to claim (from `proofs.json`).
-   - `_merkleProof`: The proof array (from `proofs.json`).
+   - `_amount`: The amount of tokens to claim for the specific address (from `proofs.json`).
+   - `_merkleProof`: The proof array for the specific address (from `proofs.json`).
 
    Example in JavaScript:
 
@@ -238,3 +236,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
 5. **Security Considerations:**
 
    - Ensure that the Merkle tree is generated securely and that the proofs are distributed to eligible users without leaks.
+
+```
+Thank you for reading through I really hope this helps, Happy Hacking! 🤗
+```
