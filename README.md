@@ -51,7 +51,7 @@ This project consists of a Merkle-based token airdrop smart contract (`MerkleAir
    Run the following command to generate the Merkle root and proof data:
 
    ```
-   node scripts/merkle.js airdrop.csv
+   node scripts/generateMerkleTree.js airdrop.csv
    ```
 
    This script will:
