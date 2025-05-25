@@ -1,0 +1,14 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.5.0",
+    "hardhat": "^2.24.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.3.0",
+    "csv-parser": "^3.2.0",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.5.2"
+  }
+}
