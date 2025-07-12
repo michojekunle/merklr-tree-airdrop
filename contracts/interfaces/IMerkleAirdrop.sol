@@ -4,9 +4,9 @@ pragma solidity ^0.8.20;
 interface IMerkleAirdrop {
     function depositIntoContract(uint256 _amount) external;
 
-    function UpdateMerkleRoot(bytes32 _new_merkle_root) external;
+    function updateMerkleRoot(bytes32 _new_merkle_root) external;
 
-    function WithdrawRemainingTokens() external;
+    function withdrawRemainingTokens() external;
 
     function claimReward(
         uint256 _amount,

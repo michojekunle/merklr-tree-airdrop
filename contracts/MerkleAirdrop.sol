@@ -2,9 +2,12 @@
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract MerkleAirdrop {
+    using SafeERC20 for IERC20;
+
     // state variables
     bytes32 public merkleRootHash;
     address public owner;
@@ -21,19 +24,16 @@ contract MerkleAirdrop {
     }
 
     // errors
-    error ZeroAddressNotAllowed();
     error ZeroAmountNotAllowed();
     error UserAlreadyClaimed();
-    error ClaimingFailed();
     error SorryYouAreNotEligible();
     error YouAreNotTheOwner();
     error InsufficientTokenAmountFromSender();
     error InsufficientFundsPleaseTryAgain();
     error NoTokensRemainingToWithdraw();
-    error WithdrawalFailed();
 
     // events
-    event UserClaimedTokens();
+    event UserClaimedTokens(address indexed user, uint256 amount);
     event DepositIntoContractSuccessful(address indexed sender, uint256 amount);
 
     function depositIntoContract(uint256 _amount) external {
@@ -49,13 +49,13 @@ contract MerkleAirdrop {
             revert InsufficientTokenAmountFromSender();
 
         // deposit tokens into cotract from msg.sender
-        IERC20(tokenAddress).transferFrom(msg.sender, address(this), _amount);
+        IERC20(tokenAddress).safeTransferFrom(msg.sender, address(this), _amount);
 
         // emit deposit successfull event
         emit DepositIntoContractSuccessful(msg.sender, _amount);
     }
 
-    function UpdateMerkleRoot(bytes32 _new_merkle_root) external {
+    function updateMerkleRoot(bytes32 _new_merkle_root) external {
         // checks
         _onlyOwner();
 
@@ -63,7 +63,7 @@ contract MerkleAirdrop {
         merkleRootHash = _new_merkle_root;
     }
 
-    function WithdrawRemainingTokens() external {
+    function withdrawRemainingTokens() external {
         // checks only owner
         _onlyOwner();
 
@@ -74,17 +74,13 @@ contract MerkleAirdrop {
         if (_contractBalance <= 0) revert NoTokensRemainingToWithdraw();
 
         // withdraw remaining tokens to onwwers account
-        if (!IERC20(tokenAddress).transfer(owner, _contractBalance))
-            revert WithdrawalFailed();
+        IERC20(tokenAddress).safeTransfer(owner, _contractBalance);
     }
 
     function claimReward(
         uint256 _amount,
         bytes32[] calldata _merkleProof
     ) external {
-        // sanity check
-        if (msg.sender == address(0)) revert ZeroAddressNotAllowed();
-
         // recreate leaf node from user address and amount
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender, _amount));
 
@@ -102,7 +98,7 @@ contract MerkleAirdrop {
         _withdraw(msg.sender, _amount);
 
         // emit events user claimed reward
-        emit UserClaimedTokens();
+        emit UserClaimedTokens(msg.sender, _amount);
     }
 
     function _withdraw(address _to, uint256 _amount) internal {
@@ -110,14 +106,11 @@ contract MerkleAirdrop {
         if (IERC20(tokenAddress).balanceOf(address(this)) < _amount)
             revert InsufficientFundsPleaseTryAgain();
 
-        // check it transfer funtion goes through else revert claim failed
-        if (!IERC20(tokenAddress).transfer(_to, _amount))
-            revert ClaimingFailed();
+        // check it safeTransfer funtion goes through else revert claim failed
+        IERC20(tokenAddress).safeTransfer(_to, _amount);
     }
 
     function _onlyOwner() private view {
-        // checks
-        if (msg.sender == address(0)) revert ZeroAddressNotAllowed();
         if (msg.sender != owner) revert YouAreNotTheOwner();
     }
 }
